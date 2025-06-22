@@ -6,6 +6,13 @@ const Navbar = () => {
   const location = useLocation();
   
   const isActive = (path: string) => location.pathname === path;
+
+  const scrollToPackages = () => {
+    const packagesSection = document.getElementById('packages-section');
+    if (packagesSection) {
+      packagesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   
   return (
     <nav className="bg-white border-b border-gray-200 px-6 py-4">
@@ -16,30 +23,6 @@ const Navbar = () => {
           </Link>
           
           <div className="hidden md:flex space-x-6">
-            <Link 
-              to="/" 
-              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                isActive('/') ? 'text-blue-600' : 'text-gray-600'
-              }`}
-            >
-              Overview
-            </Link>
-            <Link 
-              to="/new-request" 
-              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                isActive('/new-request') ? 'text-blue-600' : 'text-gray-600'
-              }`}
-            >
-              New Request
-            </Link>
-            <Link 
-              to="/my-requests" 
-              className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                isActive('/my-requests') ? 'text-blue-600' : 'text-gray-600'
-              }`}
-            >
-              My Requests
-            </Link>
             <Link 
               to="/contact" 
               className={`text-sm font-medium transition-colors hover:text-blue-600 ${
@@ -62,7 +45,10 @@ const Navbar = () => {
               Sign Up
             </Button>
           </Link>
-          <Button className="bg-gray-800 hover:bg-gray-900 text-white">
+          <Button 
+            onClick={scrollToPackages}
+            className="bg-gray-800 hover:bg-gray-900 text-white"
+          >
             POST A REQUEST
           </Button>
         </div>

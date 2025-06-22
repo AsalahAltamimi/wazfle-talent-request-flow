@@ -1,6 +1,6 @@
 
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
-import { Home, FileText, CreditCard, User, LogOut } from "lucide-react";
+import { Home, FileText, User, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -19,11 +19,6 @@ const menuItems = [
     title: "My Requests",
     url: "/dashboard/my-requests",
     icon: FileText,
-  },
-  {
-    title: "Payment",
-    url: "/dashboard/payment",
-    icon: CreditCard,
   },
 ];
 

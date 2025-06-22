@@ -5,15 +5,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
+
+  useEffect(() => {
+    const packageData = localStorage.getItem('selectedPackage');
+    if (packageData) {
+      setSelectedPackage(JSON.parse(packageData));
+    }
+  }, []);
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would normally handle user registration
-    // For now, we'll just redirect to dashboard
-    navigate("/dashboard");
+    
+    // Check if this is for a special request (no package data stored)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isSpecialRequest = urlParams.get('special') === 'true';
+    
+    if (isSpecialRequest) {
+      navigate("/dashboard/special-request-form");
+    } else if (selectedPackage) {
+      navigate("/dashboard/standard-request-form");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (

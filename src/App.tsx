@@ -15,6 +15,9 @@ import Dashboard from "./pages/Dashboard";
 import DashboardNewRequest from "./pages/DashboardNewRequest";
 import DashboardMyRequests from "./pages/DashboardMyRequests";
 import DashboardPayment from "./pages/DashboardPayment";
+import StandardRequestForm from "./pages/StandardRequestForm";
+import SpecialRequestForm from "./pages/SpecialRequestForm";
+import ThankYou from "./pages/ThankYou";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +38,9 @@ const App = () => (
           <Route path="/dashboard/new-request" element={<DashboardNewRequest />} />
           <Route path="/dashboard/my-requests" element={<DashboardMyRequests />} />
           <Route path="/dashboard/payment" element={<DashboardPayment />} />
+          <Route path="/dashboard/standard-request-form" element={<StandardRequestForm />} />
+          <Route path="/dashboard/special-request-form" element={<SpecialRequestForm />} />
+          <Route path="/dashboard/thank-you" element={<ThankYou />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

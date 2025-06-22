@@ -2,9 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const PackagesSection = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isDashboard = location.pathname.includes('/dashboard');
+  
   const [quantities, setQuantities] = useState({
     junior: '',
     medium: '',
@@ -66,8 +70,34 @@ const PackagesSection = () => {
     }));
   };
 
+  const handleStandardContinue = (packageId: string) => {
+    const quantity = quantities[packageId as keyof typeof quantities];
+    if (quantity && parseInt(quantity) > 0) {
+      // Store the selected package and quantity
+      localStorage.setItem('selectedPackage', JSON.stringify({
+        packageId,
+        quantity: parseInt(quantity),
+        packageDetails: packages.find(p => p.id === packageId)
+      }));
+      
+      if (isDashboard) {
+        navigate('/dashboard/standard-request-form');
+      } else {
+        navigate('/signup');
+      }
+    }
+  };
+
+  const handleSpecialContinue = () => {
+    if (isDashboard) {
+      navigate('/dashboard/special-request-form');
+    } else {
+      navigate('/signup');
+    }
+  };
+
   return (
-    <div className="py-16 px-6 bg-blue-50">
+    <div id="packages-section" className="py-16 px-6 bg-blue-50">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Standard Request Section */}
@@ -115,11 +145,24 @@ const PackagesSection = () => {
                     </div>
                     
                     <Input
-                      placeholder="Add number here"
+                      placeholder="Number of Candidates"
                       value={quantities[pkg.id as keyof typeof quantities]}
                       onChange={(e) => handleQuantityChange(pkg.id, e.target.value)}
                       className="mb-4"
+                      type="number"
+                      min="1"
                     />
+                    
+                    {/* Dynamic Continue Button */}
+                    {quantities[pkg.id as keyof typeof quantities] && 
+                     parseInt(quantities[pkg.id as keyof typeof quantities]) > 0 && (
+                      <Button 
+                        onClick={() => handleStandardContinue(pkg.id)}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      >
+                        Continue
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -139,11 +182,12 @@ const PackagesSection = () => {
                 Fill out the information and your contact details.
               </div>
               
-              <Link to="/special-request">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                  Continue
-                </Button>
-              </Link>
+              <Button 
+                onClick={handleSpecialContinue}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Continue
+              </Button>
             </div>
           </div>
         </div>
